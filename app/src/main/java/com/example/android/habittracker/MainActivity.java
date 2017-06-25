@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     /** Database helper that will provide us access to the database */
     private HabitDBHelper mDbHelper;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,19 +30,21 @@ public class MainActivity extends AppCompatActivity {
         // and pass the context, which is the current activity.
         mDbHelper = new HabitDBHelper(this);
         insertHabit();
-        displayDatabaseInfo();
+        Cursor Cursor_habit = createCursor();
+        readCursor(Cursor_habit);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        displayDatabaseInfo();
+        Cursor Cursor_habit = createCursor();
+        readCursor(Cursor_habit);
     }
 
     /**
      * Temporary helper method to display information in the onscreen TextView
      */
-    private void displayDatabaseInfo() {
+    private Cursor createCursor() {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -62,8 +65,12 @@ public class MainActivity extends AppCompatActivity {
                 null,                  // Don't filter by row groups
                 null);                   // The sort order
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+        return cursor;
+    }
 
+    private void readCursor(Cursor cursor){
+
+        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
         try {
             // Create a header in the Text View that looks like this:
             //
