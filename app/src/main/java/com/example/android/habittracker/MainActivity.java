@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         String[] projection = {
                 HabitEntry._ID,
                 HabitEntry.COLUMN_HABIT_DATE,
+                HabitEntry.COLUMN_HABIT_DURATION,
                 HabitEntry.COLUMN_HABIT_ACTIVITY};
 
         // Perform a query on the pets table
@@ -82,11 +83,13 @@ public class MainActivity extends AppCompatActivity {
             displayView.setText("The pets table contains " + cursor.getCount() + " pets.\n\n");
             displayView.append(HabitEntry._ID + " - " +
                     HabitEntry.COLUMN_HABIT_DATE + " - " +
+                    HabitEntry.COLUMN_HABIT_DURATION + " - " +
                     HabitEntry.COLUMN_HABIT_ACTIVITY + "\n");
 
             // Figure out the index of each column
             int idColumnIndex = cursor.getColumnIndex(HabitEntry._ID);
             int dateColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_DATE);
+            int durationColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_DURATION);
             int anctivityColumnIndex = cursor.getColumnIndex(HabitEntry.COLUMN_HABIT_ACTIVITY );
 
             // Iterate through all the returned rows in the cursor
@@ -95,11 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 // at the current row the cursor is on.
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentDate = cursor.getString(dateColumnIndex);
+                int currentDuration = cursor.getInt(durationColumnIndex);
                 String currentActivity = cursor.getString(anctivityColumnIndex);
 
                 // Display the values from each column of the current row in the cursor in the TextView
                 displayView.append(("\n" + currentID + " - " +
                         currentDate + " - " +
+                        currentDuration + "[min] - " +
                         currentActivity));
             }
         } finally {
@@ -125,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
         values.put(HabitEntry.COLUMN_HABIT_DATE, date);
+        values.put(HabitEntry.COLUMN_HABIT_DURATION, 120);
         values.put(HabitEntry.COLUMN_HABIT_ACTIVITY, "Jogging");
 
 
